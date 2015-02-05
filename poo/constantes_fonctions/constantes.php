@@ -1,3 +1,3 @@
 <?php
 
-define("TITRE_SITE", "SYLOCAPPART");
+define("TITRE_SITE", "MEWPIPE");
