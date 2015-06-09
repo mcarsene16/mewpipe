@@ -11,8 +11,9 @@ require_once 'classes/bases/base_entite.php';
 require_once 'classes/bases/base_entite_intermediaire.php';
 require_once 'constantes_fonctions/constantes.php';
 //require_once 'constantes_fonctions/constantes_include.php';
-//require_once 'constantes_fonctions/fonctions.php';
+require_once 'constantes_fonctions/fonctions.php';
 //require_once 'constantes_fonctions/fonctions_include.php';
+require_once('phpass/PasswordHash.php');
 require_once 'constantes_fonctions/data_base_configurations.php';
 require_once 'PHPMailer/PHPMailerAutoload.php';
 //Create a simple default Doctrine ORM configuration for annotations
