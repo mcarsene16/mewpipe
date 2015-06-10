@@ -1,0 +1,6 @@
+Options +FollowSymlinks
+RewriteEngine on 
+#les pages principales du site
+RewriteRule ^index$ index.php [L]
+#redirection de l'erreur 404
+ErrorDocument 404 /erreur404.php
