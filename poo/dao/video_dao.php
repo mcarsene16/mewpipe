@@ -12,6 +12,7 @@ class VideoDAO extends DAO {
 
     public function supprimer(Video $video) {
         if (deleteVideo($video)) {
+            deleteFile($video->getAccessURL());
             return parent::supprimer($video);
         }
         return false;

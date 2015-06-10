@@ -25,7 +25,7 @@ class Address extends BaseEntiteIntermediaire {
     protected $email;
 
     /**
-     * @Column(type="string", name="ADRESS_TEXT") 
+     * @Column(type="text", name="ADRESS_TEXT") 
      * */
     protected $addressText;
 

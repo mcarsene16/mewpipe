@@ -20,6 +20,11 @@ class Video extends BaseEntiteIntermediaire {
     protected $title;
 
     /**
+     * @Column(type="text", name="DESCRIPTIF") 
+     * */
+    protected $descriptif;
+
+    /**
      * @Column(type="string", name="ACCES_URL", unique=true) 
      * */
     protected $accessURL;
@@ -39,6 +44,14 @@ class Video extends BaseEntiteIntermediaire {
      * @JoinColumn(name="ID_USER", referencedColumnName="id")
      */
     private $owner;
+
+    public function getDescriptif() {
+        return $this->descriptif;
+    }
+
+    public function setDescriptif($descriptif) {
+        $this->descriptif = $descriptif;
+    }
 
     public function getId() {
         return $this->id;

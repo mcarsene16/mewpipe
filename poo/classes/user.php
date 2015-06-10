@@ -134,4 +134,8 @@ class User extends BaseEntiteIntermediaire {
         return 'User';
     }
 
+    public function getFullName() {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
 }

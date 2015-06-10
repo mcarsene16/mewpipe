@@ -24,8 +24,8 @@ require_once 'PHPMailer/PHPMailerAutoload.php';
 //$config = Setup::createYAMLMetadataConfiguration(array(__DIR__."/config/yaml"), $isDevMode);
 
 $isDevMode = true;
-$paths = array(__DIR__ . "/classes");
-$config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+$classesPath = array(__DIR__ . "/classes");
+$config = Setup::createAnnotationMetadataConfiguration($classesPath, $isDevMode);
 
 // the connection configuration
 $dbParams = array(

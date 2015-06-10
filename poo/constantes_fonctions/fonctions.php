@@ -88,3 +88,61 @@ function hashUserPassword($password) {
     $hasher = new PasswordHash(8, false);
     return $hasher->HashPassword($password);
 }
+
+function checkUserPassword($submittedPass, $storedPass) {
+    $hasher = new PasswordHash(8, false);
+    return $hasher->CheckPassword($submittedPass, $storedPass);
+}
+
+function createUserPersonnalFolder(User $user) {
+    $folderPath = getUserPersonnalFolderPath($user);
+    if (!is_dir($folderPath)) {
+        mkdir($folderPath);
+    }
+}
+
+function getUserPersonnalFolderPath(User $user) {
+    return $_SERVER['DOCUMENT_ROOT'] . UPLOADED_VIDEO_FOLDER . "/" . ACCREDITATION_LEVEL_USER . "-" . $user->getId();
+}
+
+function deleteUserPersonnalFolder(User $user) {
+    $folderPath = getUserPersonnalFolderPath($user);
+    rmRecursive($folderPath);
+}
+
+function rmRecursive($path) {
+    $path = real_path($path);
+    if (!file_exists($path)) {
+        throw new RuntimeException('Fichier ou dossier non-trouvé');
+    }
+    if (is_dir($path)) {
+        $dir = dir($path);
+        while (($file_in_dir = $dir->read()) !== false) {
+            if ($file_in_dir == '.' or $file_in_dir == '..')
+                continue; // passage au tour de boucle suivant
+            rmRecursive("$path/$file_in_dir");
+        }
+        $dir->close();
+    }
+    unlink($path);
+}
+
+function uploadFile($sourceFile, $destinationFile) {
+    if (move_uploaded_file($sourceFile, $destinationFile)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function deleteFile($filePath) {
+    if (file_exists($filePath)) {
+        unlink($filePath);
+    }
+}
+
+function renameFile($oldFilePath, $newFilePath) {
+    if (file_exists($oldFilePath)) {
+        return rename($oldFilePath, $newFilePath);
+    }
+}
