@@ -10,4 +10,12 @@ class AddressDAO extends DAO {
         return $adress;
     }
 
+    public function getByUser($idUser) {
+        $dql = 'SELECT a FROM Address a WHERE a.proprietaire = ?1';
+        $query = $this->entityManager->createQuery($dql);
+        $query->setParameter(1, $idUser);
+        $address = $query->getSingleResult();
+        return $address;
+    }
+
 }

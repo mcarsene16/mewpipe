@@ -15,7 +15,7 @@ class Address extends BaseEntiteIntermediaire {
     protected $id;
 
     /**
-     * @Column(type="integer", name="FONE_NUMBER") 
+     * @Column(type="string", name="FONE_NUMBER") 
      * */
     protected $foneNumber;
 
@@ -30,7 +30,7 @@ class Address extends BaseEntiteIntermediaire {
     protected $addressText;
 
     /**
-     * @Column(type="integer", name="POSTAL_CODE") 
+     * @Column(type="string", name="POSTAL_CODE") 
      * */
     protected $postalCode;
 
@@ -43,6 +43,12 @@ class Address extends BaseEntiteIntermediaire {
      * @Column(type="string", name="COUNTRY") 
      * */
     protected $country;
+
+    /**
+     * 
+     * @Column(type="integer", name="ID_USER")
+     */
+    private $proprietaire;
 
     public function getId() {
         return $this->id;
@@ -98,6 +104,14 @@ class Address extends BaseEntiteIntermediaire {
 
     public function setCountry($country) {
         $this->country = $country;
+    }
+
+    public function getProprietaire() {
+        return $this->proprietaire;
+    }
+
+    public function setProprietaire($proprietaire) {
+        $this->proprietaire = $proprietaire;
     }
 
     public function getDisplayName() {

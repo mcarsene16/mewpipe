@@ -2,7 +2,7 @@
 
 /**
  * @Entity 
- * @Table(name="image_acs")
+ * @Table(name="USER")
  * 
  */
 class User extends BaseEntiteIntermediaire {
@@ -30,25 +30,14 @@ class User extends BaseEntiteIntermediaire {
     protected $birthDate;
 
     /**
-     * @Column(type="string", name="LOGIN", unique=true) 
+     * @Column(type="string", name="OPENID", unique=true) 
      * */
-    protected $login;
-
-    /**
-     * @Column(type="string", name="PASSWORD") 
-     * */
-    protected $password;
+    protected $openId;
 
     /**
      * @Column(type="string", name="USER_TYPE") 
      * */
-    protected $userType;
-
-    /**
-     * @OneToOne(targetEntity="Address")
-     * @JoinColumn(name="ID_ADDRESS", referencedColumnName="id")
-     */
-    private $address;
+    protected $userType;   
 
     public function getId() {
         return $this->id;
@@ -66,24 +55,8 @@ class User extends BaseEntiteIntermediaire {
         return $this->birthDate;
     }
 
-    public function getLogin() {
-        return $this->login;
-    }
-
-    public function getPassword() {
-        return $this->password;
-    }
-
     public function getUserType() {
         return $this->userType;
-    }
-
-    public function getAddress() {
-        return $this->address;
-    }
-
-    public function setAddress($address) {
-        $this->address = $address;
     }
 
     public function setId($id) {
@@ -102,20 +75,20 @@ class User extends BaseEntiteIntermediaire {
         $this->birthDate = $birthDate;
     }
 
-    public function setLogin($login) {
-        $this->login = $login;
-    }
-
-    public function setPassword($password) {
-        $this->password = $password;
-    }
-
     public function setUserType($userType) {
         $this->userType = $userType;
     }
 
     public function getDisplayName() {
         return $this->firstName . $this->lastName;
+    }
+
+    public function getOpenId() {
+        return $this->openId;
+    }
+
+    public function setOpenId($openId) {
+        $this->openId = $openId;
     }
 
     public function getHomePage() {

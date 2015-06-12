@@ -1,7 +1,9 @@
 <?php
 
+session_start();
 require_once '../poo/bootstrap.php';
 $userDAO = new UserDAO();
+$adresseDAO = new AddressDAO();
 $attributsAddress = array(
     'foneNumber' => '',
     'email' => '',
@@ -14,9 +16,8 @@ $attributsAddress = array(
 $attributs = array(
     'lastName' => '',
     'firstName' => '',
-    'birthDate' => '',
-    'login' => '',
-    'password' => '',
+    'birthDate',
+    'openId',
     'userType' => ACCREDITATION_LEVEL_USER
 );
 //récupération de l'adresse
@@ -38,12 +39,11 @@ if (isset($_POST['city'])) {
 if (isset($_POST['country'])) {
     $attributsAddress['country'] = ($_POST['country']);
 }
-$address = new Address($attributsAddress);
 
-//user
-if (isset($_GET['id'])) {
-    $attributs['id'] = (integer) $_GET['id'];
-}
+////user
+//if (isset($_GET['id'])) {
+//    $attributs['id'] = (integer) $_GET['id'];
+//}
 if (isset($_POST['lastName'])) {
     $attributs['lastName'] = ($_POST['lastName']);
 }
@@ -51,30 +51,32 @@ if (isset($_POST['firstName'])) {
     $attributs['firstName'] = ($_POST['firstName']);
 }
 if (isset($_POST['birthDate'])) {
-    $attributs['birthDate'] = ($_POST['birthDate']);
+    $attributs['birthDate'] = new DateTime($_POST['birthDate']);
 }
-if (isset($_POST['login'])) {
-    $attributs['login'] = ($_POST['login']);
-}
-if (isset($_POST['password'])) {
-    $attributs['password'] = ($_POST['password']);
-}
-$user = new User($attributs);
-$user->setAddress($address);
-try {
-    if (isset($_GET['id'])) {
-        $addressDAO = new AddressDAO();
-        $addressDAO->modifier($user->getAddress(), $user->getAddress()->getId(), $attributsAddress);
-        $address = $addressDAO->recuperer($user->getAddress(), $user->getAddress()->getId());
-        $userDAO->modifier($user,$_GET['id'],$attributs);
-    } else {
-        $userDAO->ajouter($user);
-        $usr = $userDAO->getByUserName($user->getLogin());
-        createUserPersonnalFolder($usr);
-    }
-} catch (Exception $ex) {
-    $feedback = OPERATION_ECHEC;
-}
+
 //à revoir
-header("Location:../" . $user->getHomePage() . "?feedback=$feedback");
+$user = new User($attributs);
+$address = new Address($attributsAddress);
+//modification
+if (isset($_SESSION['openId'])) {
+    $user->setOpenId($_SESSION['openId']);
+    $oldUser = $userDAO->getByOpenId($_SESSION['openId']);
+    $userDAO->modifier($user, $oldUser->getId(), $attributs);
+    $oldAddress = $adresseDAO->getByUser($oldUser->getId());
+    $adresseDAO->modifier($address, $oldAddress->getid(), $attributsAddress);
+    logUserIn($user);
+    header("Location:../user");
+}
+//mode ajout nouvel utilisateur
+if (isset($_SESSION['tmp_openId'])) {
+    $user->setOpenId($_SESSION['tmp_openId']);
+    createUserProfile($user, $userDAO);
+    $currUser = $userDAO->getByOpenId($user->getOpenId());
+    $address->setProprietaire($currUser->getId());
+    $adresseDAO->ajouter($address);
+    logUserIn($user);
+    header("Location:../user");
+}
+
+
 

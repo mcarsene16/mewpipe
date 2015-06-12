@@ -1,4 +1,4 @@
-<section class="navigation">
+<!--<section class="navigation">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2">
@@ -13,4 +13,15 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
+<div class="page-header">
+    <div class="row">
+        <?php
+        if (!isMewPipeSessionActive()) {
+            include 'include/inc_logger.php';
+        } else {
+            include 'include/inc_user_panel.php';
+        }
+        ?>
+    </div>
+</div>

@@ -1,5 +1,8 @@
 <?php
+
 require_once '../poo/bootstrap.php';
+
+require_once '../poo/dao/user_dao.php';
 //Initialisation de la session
 session_start();
 $userDAO = new UserDAO();

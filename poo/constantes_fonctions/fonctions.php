@@ -111,15 +111,15 @@ function deleteUserPersonnalFolder(User $user) {
 }
 
 function rmRecursive($path) {
-    $path = real_path($path);
     if (!file_exists($path)) {
         throw new RuntimeException('Fichier ou dossier non-trouvé');
     }
     if (is_dir($path)) {
         $dir = dir($path);
         while (($file_in_dir = $dir->read()) !== false) {
-            if ($file_in_dir == '.' or $file_in_dir == '..')
+            if ($file_in_dir == '.' or $file_in_dir == '..') {
                 continue; // passage au tour de boucle suivant
+            }
             rmRecursive("$path/$file_in_dir");
         }
         $dir->close();
@@ -145,4 +145,39 @@ function renameFile($oldFilePath, $newFilePath) {
     if (file_exists($oldFilePath)) {
         return rename($oldFilePath, $newFilePath);
     }
+}
+
+function isMewPipeSessionActive() {
+    if (isset($_SESSION['openId'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isUserFirstVisit($openId, UserDAO $userDAO) {
+    try {
+        $user = $userDAO->getByOpenId($openId);
+        if ($user != null) {
+            return false;
+        } else {
+            return true;
+        }
+    } catch (Exception $ex) {
+        return true;
+    }
+}
+
+function createUserProfile(User $user, UserDAO $userDAO) {
+    $userDAO->ajouter($user);
+    $usr = $userDAO->getByOpenId($user->getOpenId());
+    createUserPersonnalFolder($usr);
+}
+
+function logUserIn(User $user) {
+    if (isset($_SESSION['tmp_openId'])) {
+        unset($_SESSION['tmp_openId']);
+    }
+    $_SESSION['fullName'] = $user->getFullName();
+    $_SESSION['openId'] = $user->getOpenId();
 }

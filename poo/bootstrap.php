@@ -16,16 +16,17 @@ require_once 'constantes_fonctions/fonctions.php';
 require_once('phpass/PasswordHash.php');
 require_once 'constantes_fonctions/data_base_configurations.php';
 require_once 'PHPMailer/PHPMailerAutoload.php';
+require_once'vendor/facebook/php-sdk-v4/autoload.php';
 //Create a simple default Doctrine ORM configuration for annotations
 //$isDevMode = true;
 //$config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/src"), $isDevMode);
 //or if you prefer yaml or XML
 //$config = Setup::createXMLMetadataConfiguration(array(__DIR__."/config/xml"), $isDevMode);
 //$config = Setup::createYAMLMetadataConfiguration(array(__DIR__."/config/yaml"), $isDevMode);
-
+//require files
 $isDevMode = true;
-$classesPath = array(__DIR__ . "/classes");
-$config = Setup::createAnnotationMetadataConfiguration($classesPath, $isDevMode);
+$paths = array(__DIR__ . "/classes");
+$config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
 
 // the connection configuration
 $dbParams = array(
@@ -85,8 +86,13 @@ class DAO implements IDAO {
     }
 
     public function ajouter(BaseEntite $entite) {
-        $this->entityManager->persist($entite);
-        $this->entityManager->flush();
+        try {
+            $this->entityManager->persist($entite);
+            $this->entityManager->flush();
+            $this->entityManager->clear();
+        } catch (Exception $ex) {
+            
+        }
     }
 
     public function recuperer(BaseEntite $entite, $id) {
@@ -111,27 +117,29 @@ class DAO implements IDAO {
         $entite = $this->recuperer($entite, $id);
         $entite->hydrate($attributs);
         $this->entityManager->flush();
+        $this->entityManager->clear();
     }
 
     function supprimer(BaseEntite $entite) {
         try {
             $this->entityManager->remove($entite);
             $this->entityManager->flush();
+            $this->entityManager->clear();
             return true;
         } catch (Exception $ex) {
             return false;
         }
     }
 
-    function lister(BaseEntite $entite) {        
+    function lister(BaseEntite $entite) {
 //        $entityRepository = $this->entityManager->getRepository($entite->getSimpleName());
 //        $entities = $entityRepository->findAll();
 //        return $entities;
         return $this->listerParOrdre($entite);
     }
-    
-    function listerParOrdre(BaseEntite $entite){
-        $dql = 'SELECT e FROM '.$entite->getSimpleName(). ' e ORDER BY e.'.$entite->getOrderCriteria().' ASC';
+
+    function listerParOrdre(BaseEntite $entite) {
+        $dql = 'SELECT e FROM ' . $entite->getSimpleName() . ' e ORDER BY e.' . $entite->getOrderCriteria() . ' ASC';
         $query = $this->entityManager->createQuery($dql);
         $entites = $query->getResult();
         return $entites;
@@ -142,5 +150,13 @@ class DAO implements IDAO {
     }
 
 }
-?>
+
+require_once 'classes/user.php';
+require_once 'classes/address.php';
+require_once 'classes/video.php';
+require_once 'dao/user_dao.php';
+require_once 'dao/address_dao.php';
+require_once 'dao/video_dao.php';
+require_once 'utils/facebook_utils.php';
+//require_once 'utils/thread.php';
 

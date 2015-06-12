@@ -40,8 +40,7 @@ class Video extends BaseEntiteIntermediaire {
     protected $size;
 
     /**
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(name="ID_USER", referencedColumnName="id")
+     * @Column(type="integer", name="ID_USER")
      */
     private $owner;
 

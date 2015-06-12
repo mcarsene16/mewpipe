@@ -2,5 +2,9 @@ Options +FollowSymlinks
 RewriteEngine on 
 #les pages principales du site
 RewriteRule ^index$ index.php [L]
+RewriteRule ^register$ user_registration.php [L]
+RewriteRule ^edit-profile$ user_registration.php [L]
+RewriteRule ^user$ user.php [L]
+RewriteRule ^logout$ logout.php [L]
 #redirection de l'erreur 404
 ErrorDocument 404 /erreur404.php

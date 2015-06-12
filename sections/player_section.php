@@ -1,26 +1,24 @@
-<section class="hero" id="hero">
+<section class="hero" id="hero">    
     <div class="container">
-        <div class="row">
-            <div class="col-md-2 text-left">
+        <!--<div class="row">
+            <div class="col-md-12 text-left">
                 <a href="#"><i class="fa fa-navicon fa-2x nav_slide_button"></i></a>
             </div>
-
-            <div class="col-md-10 text-right">
-                <div class="col-md-6 text-left">
+        </div>-->    
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <form id="search-form" method="POST" action="scripts/search.php">
                     <div class="input-group">                        
-                        <input type="text" class="form-control" placeholder="Rechercher" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" placeholder="rechercher une vidéo" aria-describedby="sizing-addon3">
                         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
-                    </div>
-                </div>
-                <div class="col-md-4 text-right">
-                    <a href="#"><i class="fa fa-navicon fa-2x nav_slide_button"></i></a>
-                </div>                 
+                    </div>                                                      
+                </form>
             </div>
         </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2 text-center">
-                <h1 class="animated bounceInDown">Starnight App</h1>
-                <p class="animated fadeInUpDelay">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                <h1 class="animated bounceInDown"><?php echo TITRE_SITE; ?></h1>
+                <p class="animated fadeInUpDelay">youtube numéro 2</p>
             </div>
         </div>
         <div class="row">
